@@ -1,18 +1,14 @@
-services:
-  proof-server:
-    image: 'midnightntwrk/proof-server:8.1.0'
-    command: ['midnight-proof-server', '-v']
-    ports:
-      - '127.0.0.1:6300:6300'
-    environment:
-      RUST_BACKTRACE: 'full'
-    healthcheck:
-      test: ['CMD-SHELL', 'echo > /dev/tcp/127.0.0.1/6300']
-      interval: 10s
-      timeout: 5s
-      retries: 20
-      start_period: 10s
+# NOTE: the proof-server service has been removed from this stack.
+# It fails to fetch key material from srs.midnight.network when started
+# by compose, but works fine as a standalone container. Run it once with:
+#
+#   docker run -d --name proof-server --restart unless-stopped \
+#     -p 6300:6300 midnightntwrk/proof-server:8.1.0 midnight-proof-server -v
+#
+# It then survives reboots and Docker restarts; the app reaches it at
+# localhost:6300 from the host, so it does not need to share this network.
 
+services:
   indexer:
     image: 'midnightntwrk/indexer-standalone:4.3.3'
     ports:
